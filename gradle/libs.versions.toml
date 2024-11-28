@@ -15,7 +15,7 @@ kotlinxSerializationJson = "1.7.3"
 navigationCompose = "2.8.0-alpha10"
 ksp = "2.0.10-1.0.24"
 jetbrainsKotlinJvm = "1.9.0"
-coreKtx = "1.15.0"
+datastore = "1.1.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -29,6 +29,10 @@ androidx-room-paging = { group = "androidx.room", name = "room-paging", version.
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+#Data store
+datastore-core = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+
 
 [bundles]
 common = ["androidx-lifecycle-viewmodel", "androidx-lifecycle-runtime-compose", "kotlinx-datetime", "kotlinx-serialization", "kotlinx-coroutines"]
