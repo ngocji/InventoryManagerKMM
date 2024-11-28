@@ -51,6 +51,11 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(projects.core.core)
         }
+
+        iosMain.dependencies {
+
+        }
+
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)

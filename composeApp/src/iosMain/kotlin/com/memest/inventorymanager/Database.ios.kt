@@ -4,6 +4,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.memest.inventorymanager.data.database.AppDatabase
 import com.memest.inventorymanager.data.database.dbFileName
+import kotlinx.cinterop.ExperimentalForeignApi
+import platform.Foundation.*
 
 fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
     val dbFilePath = documentDirectory() + "/$dbFileName"
@@ -12,6 +14,7 @@ fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
     )
 }
 
+@OptIn(ExperimentalForeignApi::class)
 private fun documentDirectory(): String {
     val documentDirectory = NSFileManager.defaultManager.URLForDirectory(
         directory = NSDocumentDirectory,
