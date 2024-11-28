@@ -49,6 +49,7 @@ kotlin {
             implementation(libs.bundles.common)
             implementation(libs.bundles.room)
             implementation(libs.navigation.compose)
+            implementation(projects.core.utils)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
