@@ -1,39 +1,34 @@
 package com.memest.inventorymanager
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import com.memest.core.ResultWrapper
-import org.jetbrains.compose.resources.painterResource
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import com.memest.datastore.datastoreModule
+import com.memest.datastore.read
+import com.memest.datastore.save
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
-import inventorymanager.composeapp.generated.resources.Res
-import inventorymanager.composeapp.generated.resources.compose_multiplatform
+import org.koin.compose.KoinApplication
 
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
-        var x = ResultWrapper.Success("")
-        var showContent by remember { mutableStateOf(false) }
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
-            }
+    KoinApplication(application = {
+        modules(datastoreModule)
+    }) {
+        MaterialTheme {
+            val coroutine = rememberCoroutineScope()
+            val clickCount = remember {
+                read<Int>("click_count", 0)
+            }.collectAsState(0)
+
+            Button(onClick = {
+                coroutine.launch { save("click_count", clickCount.value + 1) }
+            }, content = { Text("Click me $clickCount") })
         }
     }
 }

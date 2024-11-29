@@ -38,7 +38,9 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
         }
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -49,7 +51,11 @@ kotlin {
             implementation(libs.bundles.common)
             implementation(libs.bundles.room)
             implementation(libs.navigation.compose)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+
             implementation(projects.core.core)
+            implementation(projects.core.datastore)
         }
 
         iosMain.dependencies {

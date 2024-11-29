@@ -10,7 +10,7 @@ expect fun getDataStorePath(): String
 
 fun createDataStore(): DataStore<Preferences> =
     PreferenceDataStoreFactory.createWithPath(
-        produceFile = { getDataStorePath().toPath() }
+        produceFile = { getDataStorePath().toPath().resolve(dataStoreFileName) }
     )
 
 internal const val dataStoreFileName = "app.preferences_pb"

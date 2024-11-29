@@ -1,4 +1,4 @@
-package com.memest.inventorymanager
+package com.memest.core
 
 import platform.UIKit.UIDevice
 

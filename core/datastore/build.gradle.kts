@@ -33,12 +33,16 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
         }
+
         commonMain {
             dependencies {
                 implementation(projects.core.core)
                 implementation(libs.datastore.core)
                 implementation(libs.datastore.preferences)
+                implementation(libs.koin.core)
+                implementation(libs.koin.compose)
             }
         }
     }
@@ -47,4 +51,9 @@ kotlin {
 android {
     namespace = "com.memest.core.datastore"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
 }

@@ -37,4 +37,9 @@ kotlin {
 android {
     namespace = "com.memest.core.core"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
 }
