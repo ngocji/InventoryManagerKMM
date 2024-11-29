@@ -43,3 +43,8 @@ kotlin {
         }
     }
 }
+
+android {
+    namespace = "com.memest.core.datastore"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+}

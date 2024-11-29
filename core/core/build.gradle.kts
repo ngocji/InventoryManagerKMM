@@ -32,3 +32,9 @@ kotlin {
         }
     }
 }
+
+
+android {
+    namespace = "com.memest.core.core"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+}
