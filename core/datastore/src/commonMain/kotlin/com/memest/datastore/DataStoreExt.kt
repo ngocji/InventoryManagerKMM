@@ -2,8 +2,6 @@
 
 package com.memest.datastore
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.floatPreferencesKey
@@ -17,7 +15,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
-import org.koin.mp.KoinPlatform.getKoin
 
 inline fun <reified T : Any> getPrefKey(key: String): PrefKey {
     var isObjectValue = false
@@ -40,9 +37,10 @@ inline fun <reified T : Any> getPrefKey(key: String): PrefKey {
     )
 }
 
+val currentDataStore get() = getDataStore()
+
 suspend inline fun <reified T : Any> save(key: String, value: T) {
-    val dataStore = getKoin().get<DataStore<Preferences>>()
-    dataStore.updateData {
+    currentDataStore.updateData {
         it.toMutablePreferences().apply {
             when (value::class) {
                 Int::class -> {
@@ -80,8 +78,7 @@ suspend inline fun <reified T : Any> save(key: String, value: T) {
 
 inline fun <reified T : Any> read(key: String, defaultValue: T): Flow<T> {
     val (prefKey, isObjectValue) = getPrefKey<T>(key)
-    val dataStore = getKoin().get<DataStore<Preferences>>()
-    return dataStore.data.map {
+    return currentDataStore.data.map {
         it[prefKey]?.let { value ->
             if (isObjectValue) {
                 (value.toString()).decodeFromJson(defaultValue) ?: defaultValue
@@ -94,10 +91,9 @@ inline fun <reified T : Any> read(key: String, defaultValue: T): Flow<T> {
 
 inline fun <reified T : Any> readBlocking(key: String, defaultValue: T): T {
     val (prefKey, isObjectValue) = getPrefKey<T>(key)
-    val dataStore = getKoin().get<DataStore<Preferences>>()
 
     val value = runBlocking {
-        dataStore.data.map {
+        currentDataStore.data.map {
             it[prefKey]?.let { value ->
                 if (isObjectValue) {
                     (value.toString()).decodeFromJson(defaultValue)
@@ -112,8 +108,7 @@ inline fun <reified T : Any> readBlocking(key: String, defaultValue: T): T {
 }
 
 suspend inline fun <reified T : Any> remove(key: String) {
-    val dataStore = getKoin().get<DataStore<Preferences>>()
-    dataStore.updateData { settings ->
+    currentDataStore.updateData { settings ->
         val prefKey = getPrefKey<T>(key).key
         settings.toMutablePreferences().apply {
             remove(prefKey)

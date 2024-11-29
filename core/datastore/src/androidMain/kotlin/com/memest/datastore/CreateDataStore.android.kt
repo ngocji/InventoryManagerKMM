@@ -1,7 +1,7 @@
 package com.memest.datastore
 
 import android.content.Context
-import org.koin.java.KoinJavaComponent.getKoin
+import org.koin.mp.KoinPlatform.getKoin
 
 actual fun getDataStorePath(): String {
     val context = getKoin().get<Context>()
