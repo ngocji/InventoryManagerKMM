@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.room)
     alias(libs.plugins.ksp)
 }
 
@@ -48,13 +47,13 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.bundles.common)
-            implementation(libs.bundles.room)
             implementation(libs.navigation.compose)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
 
             implementation(projects.core.core)
             implementation(projects.core.datastore)
+            implementation(projects.core.data)
         }
 
         iosMain.dependencies {
@@ -97,10 +96,6 @@ android {
 
 dependencies {
     debugImplementation(compose.uiTooling)
-    add("kspAndroid", libs.androidx.room.compiler)
-    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
-    add("kspIosX64", libs.androidx.room.compiler)
-    add("kspIosArm64", libs.androidx.room.compiler)
 }
 
 compose.desktop {
@@ -113,8 +108,4 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
-}
-
-room {
-    schemaDirectory("$projectDir/schemas")
 }
