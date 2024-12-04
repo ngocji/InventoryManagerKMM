@@ -6,29 +6,15 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.internal.SynchronizedObject
-import kotlinx.coroutines.internal.synchronized
 import okio.Path.Companion.toPath
+import org.koin.core.scope.Scope
 
 
-expect fun getDataStorePath(): String
+expect fun getDataStorePath(scope: Scope): String
 
-fun createDataStore(): DataStore<Preferences> =
+fun createDataStore(scope: Scope): DataStore<Preferences> =
     PreferenceDataStoreFactory.createWithPath(
-        produceFile = { getDataStorePath().toPath().resolve(dataStoreFileName) }
+        produceFile = { getDataStorePath(scope).toPath().resolve(dataStoreFileName) }
     )
 
 internal const val dataStoreFileName = "app.preferences_pb"
-
-
-private lateinit var dataStore: DataStore<Preferences>
-private val lock = SynchronizedObject()
-
-fun getDataStore(): DataStore<Preferences> {
-    synchronized(lock) {
-        if (!::dataStore.isInitialized) {
-            dataStore = createDataStore()
-        }
-        return dataStore
-    }
-}

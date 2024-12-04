@@ -1,10 +1,10 @@
 package com.memest.datastore
 
 import android.content.Context
-import org.koin.mp.KoinPlatform.getKoin
+import org.koin.core.scope.Scope
 
-actual fun getDataStorePath(): String {
-    val context = getKoin().get<Context>()
+actual fun getDataStorePath(scope: Scope): String {
+    val context = scope.get<Context>()
     return context.filesDir.absolutePath
 }
 

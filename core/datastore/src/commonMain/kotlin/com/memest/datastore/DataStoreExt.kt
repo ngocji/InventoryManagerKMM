@@ -2,6 +2,8 @@
 
 package com.memest.datastore
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.floatPreferencesKey
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
+import org.koin.mp.KoinPlatform.getKoin
 
 inline fun <reified T : Any> getPrefKey(key: String): PrefKey {
     var isObjectValue = false
@@ -37,7 +40,7 @@ inline fun <reified T : Any> getPrefKey(key: String): PrefKey {
     )
 }
 
-val currentDataStore get() = getDataStore()
+val currentDataStore get() = getKoin().get<DataStore<Preferences>>()
 
 suspend inline fun <reified T : Any> save(key: String, value: T) {
     currentDataStore.updateData {
