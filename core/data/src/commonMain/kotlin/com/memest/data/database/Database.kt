@@ -3,7 +3,7 @@ package com.memest.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.sqlite.SQLiteDriver
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.memest.data.database.convertes.ListStringConvert
 import com.memest.data.database.dao.CategoryDao
 import com.memest.data.database.entity.CategoryEntity
@@ -34,6 +34,7 @@ abstract class AppDatabase : RoomDatabase() {
             return builder
                 .fallbackToDestructiveMigration(dropAllTables = true)
                 .setQueryCoroutineContext(Dispatchers.IO)
+                .setDriver(BundledSQLiteDriver())
                 .build()
         }
     }
